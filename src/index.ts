@@ -47,24 +47,24 @@ async function main(): Promise<void> {
 
   document.querySelector("#plot")?.append(barchart);
 
-  const region_chart = Plot.plot({
-    inset: 8,
-    grid: true,
-    color: {
-      legend: true,
-      type: "categorical",
-      scheme: "blues",
-    },
-    marks: [
-      Plot.barY(data, 
-                Plot.groupX({y: "count"}, 
-                            {x: "Region", fill: "BotType", sort: {x: "-y"}, tip: true
-                            /*, title: d => `Region: ${d.Region} \nBotType: ${d.BotType}`*/ })),
-      Plot.ruleY([0])
-    ]
-  })
+  // const region_chart = Plot.plot({
+  //   inset: 8,
+  //   grid: true,
+  //   color: {
+  //     legend: true,
+  //     type: "categorical",
+  //     scheme: "blues",
+  //   },
+  //   marks: [
+  //     Plot.barY(data, 
+  //               Plot.groupX({y: "count"}, 
+  //                           {x: "Region", fill: "BotType", sort: {x: "-y"}, tip: true
+  //                           /*, title: d => `Region: ${d.Region} \nBotType: ${d.BotType}`*/ })),
+  //     Plot.ruleY([0])
+  //   ]
+  // })
 
-  document.querySelector("#plot")?.append(region_chart);
+  // document.querySelector("#plot")?.append(region_chart);
 
 }
 
