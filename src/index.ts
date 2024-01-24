@@ -1,5 +1,5 @@
 import * as Plot from "@observablehq/plot";
-import * as d3 from 'd3';
+import * as d3 from "d3";
 
 interface Player {
   name: string;
@@ -14,10 +14,10 @@ interface Player {
 
 interface Case {
   state: string;
-  year: number;
+  year: string;
   bot_type: string;
   toxin_type: string;
-  count: number;
+  count: string;
   region: string;
 }
 
@@ -40,7 +40,7 @@ async function main(): Promise<void> {
     },
     marks: [
       // Plot.barY(data, {x: "Year", y: "Count", fill: "Count"})
-      Plot.barY(data, Plot.groupX({y: "Count", fill: "Count"}, {x: "Year"})),
+      Plot.barY(data, Plot.groupX({y: "count", fill: "count"}, {x: "Year"})),
       Plot.ruleY([0])
     ]
   });
@@ -53,12 +53,12 @@ async function main(): Promise<void> {
     color: {
       legend: true,
       type: "categorical",
-      scheme: "Viridis"
+      scheme: "Viridis",
     },
     marks: [
       Plot.barY(data, 
-                Plot.groupX({y: "Count"}, 
-                            {x: "Region", fill: "BotType", sort: {x: "-y"}
+                Plot.groupX({y: "count"}, 
+                            {x: "Region", fill: "BotType", sort: {x: "-y"}, tip: true
                             /*, title: d => `Region: ${d.Region} \nBotType: ${d.BotType}`*/ })),
       Plot.ruleY([0])
     ]
