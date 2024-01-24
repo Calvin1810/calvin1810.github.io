@@ -46,6 +46,26 @@ async function main(): Promise<void> {
   });
 
   document.querySelector("#plot")?.append(barchart);
+
+  const region_chart = Plot.plot({
+    inset: 8,
+    grid: true,
+    color: {
+      legend: true,
+      type: "categorical",
+      scheme: "Viridis"
+    },
+    marks: [
+      Plot.barY(data, 
+                Plot.groupX({y: "Count"}, 
+                            {x: "Region", fill: "BotType", sort: {x: "-y"}
+                            /*, title: d => `Region: ${d.Region} \nBotType: ${d.BotType}`*/ })),
+      Plot.ruleY([0])
+    ]
+  })
+
+  document.querySelector("#plot")?.append(region_chart);
+
 }
 
 window.addEventListener("DOMContentLoaded", async (_evt) => {
