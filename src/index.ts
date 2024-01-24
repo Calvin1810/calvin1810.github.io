@@ -24,7 +24,7 @@ interface Case {
 async function main(): Promise<void> {
   // const res = await fetch("data/players_2023.json");
   // const data = (await res.json()) as Array<Player>;
-  const data = await d3.csv("data/Botulism_20240122.csv");
+  const data: Array<Case> = await d3.csv("data/Botulism_20240122.csv");
 
   const barchart = Plot.plot({
     inset: 8,
