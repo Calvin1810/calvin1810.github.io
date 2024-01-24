@@ -53,7 +53,7 @@ async function main(): Promise<void> {
     color: {
       legend: true,
       type: "categorical",
-      scheme: "Viridis",
+      scheme: "blues",
     },
     marks: [
       Plot.barY(data, 
