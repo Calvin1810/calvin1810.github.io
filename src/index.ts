@@ -44,23 +44,28 @@ async function main(): Promise<void> {
     grid: true,
     color: {
       legend: true,
+      label: "Number of Cases",
       // type: "categorical",
       scheme: "OrRd"
     },
     x: {
       ticks: d3.range(1910, 2020, 10),
-      // tickFormat: d => d.toString().replace(",", "")
+      tickFormat: d => d.toString().replace(",", "")
+    },
+    y: {
+      label: "Number of Cases"
     },
     marks: [
       // Plot.barY(data, {x: "Year", y: "Count", fill: "Count"})
-      Plot.barY(data, Plot.groupX({y: "count", fill: "count"}, {x: "Year"})),
+      Plot.barY(data, Plot.groupX({y: "count", fill: "count"}, {x: "Year", tip: true})),
+      //Plot.line(pop_data_US, {x: "Year", y: "Population"}),
       Plot.ruleY([0])
     ]
-  });
+  })
 
   document.querySelector("#plot")?.append(barchart);
 
-  const new_data = data.filter(d => Number(d.year) === 2010)
+  const new_data = data.filter(d => d.year === "2010");
 
   const adjusted_data = new_data.map(d => {
     const popObj = pop_data.find(
@@ -75,18 +80,18 @@ async function main(): Promise<void> {
     color: {
       legend: true,
       type: "categorical",
-      scheme: "Blues"
+      scheme: "OrRd"
     },
     y: {
       label: "Total Cases Per Capita"
     },
     marks: [
-      Plot.barY(adjusted_data, 
-                Plot.groupX({y: "count"}, 
+      Plot.barY(new_data,
+                Plot.groupX({y: "count"},
                             {x: "Region", fill: "BotType", sort: {x: "-y"}, tip: true})),
       Plot.ruleY([0])
     ]
-  })
+  });
 
   document.querySelector("#plot")?.append(region_chart);
 
