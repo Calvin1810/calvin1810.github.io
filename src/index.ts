@@ -21,10 +21,23 @@ interface Case {
   region: string;
 }
 
+interface Pop {
+  name: string;
+  geography: string;
+  year: string;
+  population: string;
+  percent_change: string;
+  resident_pop: string;
+  reps: string;
+  rep_change: string;
+  apportionment: string
+}
+
 async function main(): Promise<void> {
   // const res = await fetch("data/players_2023.json");
   // const data = (await res.json()) as Array<Player>;
   const data: Array<Case> = await d3.csv("data/Botulism_20240122.csv");
+  const pop_data: Array<Pop> = await d3.csv("data/population.csv");
 
   const barchart = Plot.plot({
     inset: 8,
@@ -47,19 +60,30 @@ async function main(): Promise<void> {
 
   document.querySelector("#plot")?.append(barchart);
 
+  const new_data = data.filter(d => Number(d.year) === 2010)
+
+  const adjusted_data = new_data.map(d => {
+    const popObj = pop_data.find(
+      pd => pd.name === d.region && pd.year === d.year
+    );
+    return {...d, Count: Number(d.count) / (popObj ? Number(popObj.population) : 1)};
+  });
+
   const region_chart = Plot.plot({
     inset: 8,
     grid: true,
     color: {
       legend: true,
       type: "categorical",
-      scheme: "Viridis",
+      scheme: "Blues"
+    },
+    y: {
+      label: "Total Cases Per Capita"
     },
     marks: [
-      Plot.barY(data, 
+      Plot.barY(adjusted_data, 
                 Plot.groupX({y: "count"}, 
-                            {x: "Region", fill: "BotType", sort: {x: "-y"}, tip: true
-                            /*, title: d => `Region: ${d.Region} \nBotType: ${d.BotType}`*/ })),
+                            {x: "Region", fill: "BotType", sort: {x: "-y"}, tip: true})),
       Plot.ruleY([0])
     ]
   })
